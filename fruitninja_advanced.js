@@ -60,7 +60,7 @@ function draw() {
   for (let fruit of fruits) {
     if (fruit.y > height + 50) {
       fruit.remove();
-      if (score > 0) score -= 1 // deduct for missed fruit
+      if (score > 0) score -= 1; // deduct for missed fruit
     }
   }
 
@@ -68,6 +68,12 @@ function draw() {
   updateMouseTrail();
 
   sliceFruit();
+
+  displaySplash();
+  
+}
+
+function displaySplash(){
   //display splash
   for (let i = splashEffects.length - 1; i >= 0; i--) {
     let splash = splashEffects[i];
@@ -83,8 +89,6 @@ function draw() {
       splashEffects.splice(i, 1);
     }
   }
-  
-  
 }
 
 // Function to create a fruit
@@ -95,7 +99,7 @@ function spawnFruit() {
   fruit.type = fruitData; // store reference to its type
   fruit.vel.y = random(-10, -15); // shoot upward
   fruit.vel.x = random(-3, 3); // give sideways curve
-  fruit.friction = 0; // don't slow down horizontally
+  fruit.friction = 0; // amount the sprite's physics body resists moving when rubbing against another physics body.
 }
 
 // Mouse trail system

@@ -13,10 +13,8 @@ function preload() {
 function setup() {
   new Canvas(800, 600);
   world.gravity.y = 10; // Make things fall
-
   fruits = new Group();
   fruitHalves = new Group();
-
 }
 
 function draw() {
@@ -28,7 +26,6 @@ function draw() {
   textSize(24);
   textAlign(LEFT, TOP);
   text('Score: ' + score, 10, 10);
-
   // Spawn a new fruit every 60 frames (~once a second)
   /*
   Frame Count is a built-in variable in p5.js.
@@ -43,12 +40,10 @@ function draw() {
   for (let fruit of fruits) {
     if (fruit.y > height + 50) {
       fruit.remove();
-      if (score>0) score -=1;
+      if(score > 0) score -=1;
     }
   }
 
-  // Update & draw mouse trail
-  updateMouseTrail();
   sliceFruit();
 }
 
@@ -61,38 +56,9 @@ function spawnFruit() {
   fruit.drag = 0.5; // slow down horizontally
 }
 
-// Mouse trail system
-function updateMouseTrail() {
-  if (mouse.pressing()) {
-    trail.push({ x: mouse.x, y: mouse.y, life: 15 }); // store current point
-  }
-
-  // Fade + draw lines between trail points
-  stroke(255, 100, 100);
-  strokeWeight(4);
-  noFill();
-  for (let i = trail.length - 1; i >= 0; i--) {
-    let p1 = trail[i];
-  
-    // Only draw lines if there's a previous point
-    if (i > 0) {
-      let p2 = trail[i - 1];
-      line(p1.x, p1.y, p2.x, p2.y);
-    }
-  
-    // Decrease life and remove if expired
-    p1.life--;
-    if (p1.life <= 0) {
-      trail.splice(i, 1);
-    }
-  }
-  
-  console.log(trail)
-}
 
 function sliceFruit() {
   if (!mouse.pressing()) return;
-
   for (let fruit of fruits) {
     if (fruit.sliced) continue; // skip already sliced fruits
 
@@ -106,9 +72,9 @@ function sliceFruit() {
 
       fruit.remove(); // remove whole fruit
 
-      splitFruit(fx, fy); // spawn halves
+      splitFruit(fx, fy, fruit.type); // spawn halves
       score += 1
-
+      
       break; // only slice one fruit per frame
     }
   }
