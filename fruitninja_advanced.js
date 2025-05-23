@@ -6,6 +6,10 @@ let score = 0;
 //splash points
 let splashEffects = [];
 
+// sound assets
+let backgroundTrack;
+let sliceSound;
+
 
 function preload() {
   dojoBG = loadImage('assets/dojobackground.png')
@@ -27,6 +31,10 @@ function preload() {
 
 
   fruitTypes = [peach, watermelon];
+
+  // sound effects
+  backgroundTrack = createAudio('assets/fruit-ninja-bgtrack.mp3');
+  sliceSound = createAudio('assets/fruit-ninja-combo.mp3');
 }
 
 function setup() {
@@ -35,7 +43,6 @@ function setup() {
 
   fruits = new Group();
   fruitHalves = new Group();
-
 }
 
 function draw() {
@@ -46,6 +53,8 @@ function draw() {
   textSize(24);
   textAlign(LEFT, TOP);
   text('Score: ' + score, 10, 10);
+
+   backgroundTrack.loop();
 
   /*
   Frame Count is a built-in variable in p5.js.
@@ -145,6 +154,7 @@ function sliceFruit() {
       const fy = fruit.y;
 
       fruit.remove(); // remove whole fruit
+      sliceSound.play();
 
       splitFruit(fx, fy, fruit.type); // spawn halves
       score += 1
